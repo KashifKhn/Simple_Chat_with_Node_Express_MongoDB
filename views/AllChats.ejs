@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <title>ALL CHATS</title>
+  </head>
+  <body class="bg-dark text-white">
+    <div class="container">
+      <h1 class="text-primary my-4">ALL Chats</h1>
+      <div class="d-flex gap-3">
+        <a href="/chats/new" class="btn btn-primary my-2">Create New Chat</a>
+      </div>
+      <div class="mt-2 py-5">
+        <% for (const chat of chats) { %>
+        <div class="card mb-5">
+          <div class="card-body">
+            <p class="fst-italic">Send By: <%= chat.from %></p>
+            <p class="bg-secondary text-white p-4 my-2 rounded h6">
+              <%= chat.msg %>
+            </p>
+            <p class="fst-italic">Send To: <%= chat.to %></p>
+            <div class="d-flex gap-5">
+              <div class="mb-2 d-flex gap-3">
+                <p class="fst-italic">
+                  <%= chat.create_at.toString().split(" ")[4] %>
+                </p>
+                <p class="fst-italic">
+                  <%= chat.create_at.toString().split(" ").slice(0,4).join("-")
+                  %>
+                </p>
+              </div>
+              <% if (chat.update_at > chat.create_at) { %>
+              <div class="mb-2 d-flex gap-3">
+                <span>Update at:</span>
+                <p class="fst-italic">
+                  <%= chat.update_at.toString().split(" ")[4] %>
+                </p>
+                <p class="fst-italic">
+                  <%= chat.update_at.toString().split(" ").slice(0,4).join("-")
+                  %>
+                </p>
+              </div>
+              <% } %>
+            </div>
+            <div>
+              <a href="/chats/<%= chat._id %>/edit" class="btn btn-info"
+                >Edit</a
+              >
+              <form
+                class="d-inline"
+                method="POST"
+                action="/chats/<%=chat._id%>?_method=DELETE"
+              >
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <% }%>
+      </div>
+    </div>
+  </body>
+</html>
